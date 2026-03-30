@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git init:*)"
+      "Bash(git init:*)",
+      "Bash(unzip -l 2025q4.zip)",
+      "Read(//private/tmp/**)",
+      "Bash(unzip -o /Users/joeygong/projects/content_marketplace/src/test/resources/2025q4.zip readme.htm sub.txt tag.txt -d sec_preview)",
+      "Read(//tmp/sec_preview/**)",
+      "Bash(find /Users/joeygong/projects/content_marketplace -type d -not -path */target/* -not -path */.git/*)",
+      "Bash(mvn compile:*)",
+      "Bash(./mvnw compile:*)"
     ]
   }
 }

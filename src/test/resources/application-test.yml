@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+  datasource:
+    # Overridden dynamically by Testcontainers in AbstractIntegrationTest
+    url: jdbc:tc:postgresql:15-alpine:///content_marketplace
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+logging:
+  level:
+    com.tianzige.marketplace: DEBUG
