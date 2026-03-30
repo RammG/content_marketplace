@@ -8,7 +8,9 @@
       "Read(//tmp/sec_preview/**)",
       "Bash(find /Users/joeygong/projects/content_marketplace -type d -not -path */target/* -not -path */.git/*)",
       "Bash(mvn compile:*)",
-      "Bash(./mvnw compile:*)"
+      "Bash(./mvnw compile:*)",
+      "Bash(xargs:*)",
+      "Bash(tree:*)"
     ]
   }
 }
