@@ -10,7 +10,8 @@
       "Bash(mvn compile:*)",
       "Bash(./mvnw compile:*)",
       "Bash(xargs:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(java:*)"
     ]
   }
 }

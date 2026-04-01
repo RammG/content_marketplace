@@ -1,0 +1,74 @@
+enum EstimateMetric {
+  REVENUE
+  GROSS_PROFIT
+  OPERATING_INCOME
+  EBITDA
+  NET_INCOME
+  EPS_BASIC
+  EPS_DILUTED
+  EPS_NORMALIZED
+  FREE_CASH_FLOW
+  CAPITAL_EXPENDITURES
+  DIVIDEND_PER_SHARE
+}
+
+type BrokerEstimate {
+  id: UUID!
+  company: Company!
+  brokerName: String!
+  analystName: String
+  estimateDate: Date!
+  periodType: PeriodType!
+  fiscalYear: Int!
+  fiscalQuarter: Int
+  metric: EstimateMetric!
+  value: BigDecimal!
+  currency: String
+  priceTarget: BigDecimal
+  rating: String
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type BrokerEstimateConnection {
+  edges: [BrokerEstimateEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type BrokerEstimateEdge {
+  node: BrokerEstimate!
+  cursor: String!
+}
+
+type ConsensusEstimate {
+  id: UUID!
+  company: Company!
+  estimateDate: Date!
+  periodType: PeriodType!
+  fiscalYear: Int!
+  fiscalQuarter: Int
+  metric: EstimateMetric!
+  estimateCount: Int!
+  meanValue: BigDecimal
+  medianValue: BigDecimal
+  highValue: BigDecimal
+  lowValue: BigDecimal
+  stdDeviation: BigDecimal
+  currency: String
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type ConsensusEstimateConnection {
+  edges: [ConsensusEstimateEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ConsensusEstimateEdge {
+  node: ConsensusEstimate!
+  cursor: String!
+}

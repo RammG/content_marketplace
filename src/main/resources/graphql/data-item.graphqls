@@ -1,0 +1,60 @@
+enum SourceType {
+  XML
+  JSON
+  CSV
+  EXCEL
+  PDF
+  TEXT
+  OTHER
+}
+
+type DataItem {
+  id: UUID!
+  name: String!
+  sourceType: SourceType!
+  sourceFormat: String
+  contentType: String
+  provider: String!
+  version: String
+  description: String
+  elasticsearchId: String
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  # Linked content documents
+  contentDocuments: [ContentDocument!]!
+}
+
+type DataItemConnection {
+  edges: [DataItemEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type DataItemEdge {
+  node: DataItem!
+  cursor: String!
+}
+
+input CreateDataItemInput {
+  name: String!
+  sourceType: SourceType!
+  sourceFormat: String
+  contentType: String
+  provider: String!
+  version: String
+  description: String
+  metadata: JSON
+}
+
+input UpdateDataItemInput {
+  name: String
+  sourceType: SourceType
+  sourceFormat: String
+  contentType: String
+  provider: String
+  version: String
+  description: String
+  metadata: JSON
+}

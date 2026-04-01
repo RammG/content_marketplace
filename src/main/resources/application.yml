@@ -2,6 +2,19 @@ spring:
   application:
     name: content-marketplace
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: marketplace-ingest-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.tianzige.marketplace.kafka.event
+
   datasource:
     url: jdbc:postgresql://localhost:5432/content_marketplace
     username: marketplace
@@ -20,6 +33,14 @@ spring:
   elasticsearch:
     uris: http://localhost:9200
 
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
+    schema:
+      locations: classpath:graphql/
+    path: /graphql
+
 server:
   port: 8080
 
@@ -34,3 +55,13 @@ logging:
   level:
     com.tianzige.marketplace: DEBUG
     org.springframework.data.elasticsearch: DEBUG
+
+marketplace:
+  ingest:
+    storage:
+      base-path: ${java.io.tmpdir}/marketplace/ingest
+    kafka:
+      topics:
+        requests: marketplace.ingest.requests
+        events: marketplace.ingest.events
+        dlq: marketplace.ingest.dlq

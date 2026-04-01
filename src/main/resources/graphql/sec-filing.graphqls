@@ -1,0 +1,34 @@
+type SecFiling {
+  id: UUID!
+  company: Company!
+  adsh: String!
+  formType: String!
+  filedDate: Date
+  periodOfReport: Date
+  fiscalYearEnd: String
+  entityType: String
+  sic: String
+  countryOfIncorporation: String
+  stateOfIncorporation: String
+  wksi: Boolean
+  xbrlFactCount: Int
+  rawDetails: JSON
+
+  # Relationships
+  dataItem: DataItem
+  financialPeriod: FinancialPeriod
+
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type SecFilingConnection {
+  edges: [SecFilingEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type SecFilingEdge {
+  node: SecFiling!
+  cursor: String!
+}

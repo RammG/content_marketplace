@@ -1,0 +1,88 @@
+type Company {
+  id: UUID!
+  ticker: String
+  cik: String
+  name: String!
+  exchange: String
+  sector: String
+  industry: String
+  sic: String
+  countryOfIncorporation: String
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  # Nested relationships
+  financialPeriods(
+    periodType: PeriodType
+    fiscalYear: Int
+    first: Int
+    after: String
+  ): FinancialPeriodConnection!
+
+  secFilings(
+    formType: String
+    first: Int
+    after: String
+  ): SecFilingConnection!
+
+  brokerEstimates(
+    metric: EstimateMetric
+    first: Int
+    after: String
+  ): BrokerEstimateConnection!
+
+  consensusEstimates(
+    metric: EstimateMetric
+    first: Int
+    after: String
+  ): ConsensusEstimateConnection!
+
+  # Convenience fields
+  latestAnnualPeriod: FinancialPeriod
+  latestQuarterlyPeriod: FinancialPeriod
+}
+
+type CompanyConnection {
+  edges: [CompanyEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CompanyEdge {
+  node: Company!
+  cursor: String!
+}
+
+input CompanyFilter {
+  ticker: String
+  cik: String
+  name: String
+  exchange: String
+  sector: String
+  industry: String
+}
+
+input CreateCompanyInput {
+  ticker: String
+  cik: String
+  name: String!
+  exchange: String
+  sector: String
+  industry: String
+  sic: String
+  countryOfIncorporation: String
+  metadata: JSON
+}
+
+input UpdateCompanyInput {
+  ticker: String
+  cik: String
+  name: String
+  exchange: String
+  sector: String
+  industry: String
+  sic: String
+  countryOfIncorporation: String
+  metadata: JSON
+}

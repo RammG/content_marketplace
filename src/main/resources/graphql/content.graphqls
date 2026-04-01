@@ -1,0 +1,49 @@
+type ContentDocument {
+  id: String!
+  dataItemId: String
+  rawContent: String
+  normalizedContent: String
+  contentType: String
+  sourceType: String
+  title: String
+  summary: String
+  provider: String
+  extractedFields: JSON
+  indexedAt: DateTime
+  updatedAt: DateTime
+
+  # Linked data item
+  dataItem: DataItem
+}
+
+type ContentDocumentConnection {
+  edges: [ContentDocumentEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ContentDocumentEdge {
+  node: ContentDocument!
+  cursor: String!
+}
+
+input StoreContentInput {
+  dataItemId: String
+  rawContent: String
+  normalizedContent: String
+  contentType: String
+  sourceType: String
+  title: String
+  summary: String
+  provider: String
+  extractedFields: JSON
+}
+
+input UpdateContentInput {
+  rawContent: String
+  normalizedContent: String
+  contentType: String
+  title: String
+  summary: String
+  extractedFields: JSON
+}

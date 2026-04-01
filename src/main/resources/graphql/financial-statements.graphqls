@@ -1,0 +1,180 @@
+enum PeriodType {
+  ANNUAL
+  QUARTERLY
+  TTM
+}
+
+enum DataSource {
+  COMPANY_REPORT
+  SEC_FILING
+  BROKER_ESTIMATE
+  THIRD_PARTY
+}
+
+type FinancialPeriod {
+  id: UUID!
+  company: Company!
+  periodType: PeriodType!
+  fiscalYear: Int!
+  fiscalQuarter: Int
+  periodStartDate: Date
+  periodEndDate: Date
+  filingDate: Date
+  reportDate: Date
+  createdAt: DateTime!
+  updatedAt: DateTime
+
+  # Nested statements
+  balanceSheets: [BalanceSheet!]!
+  incomeStatements: [IncomeStatement!]!
+  cashFlowStatements: [CashFlowStatement!]!
+  secFilings: [SecFiling!]!
+}
+
+type FinancialPeriodConnection {
+  edges: [FinancialPeriodEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type FinancialPeriodEdge {
+  node: FinancialPeriod!
+  cursor: String!
+}
+
+type BalanceSheet {
+  id: UUID!
+  financialPeriod: FinancialPeriod!
+  dataSource: DataSource!
+  sourceRef: String
+
+  # Current Assets
+  cashAndEquivalents: BigDecimal
+  shortTermInvestments: BigDecimal
+  accountsReceivable: BigDecimal
+  inventory: BigDecimal
+  otherCurrentAssets: BigDecimal
+  totalCurrentAssets: BigDecimal
+
+  # Non-current Assets
+  propertyPlantEquipmentNet: BigDecimal
+  goodwill: BigDecimal
+  intangibleAssets: BigDecimal
+  longTermInvestments: BigDecimal
+  otherNonCurrentAssets: BigDecimal
+  totalNonCurrentAssets: BigDecimal
+  totalAssets: BigDecimal
+
+  # Current Liabilities
+  accountsPayable: BigDecimal
+  shortTermDebt: BigDecimal
+  deferredRevenueCurrent: BigDecimal
+  otherCurrentLiabilities: BigDecimal
+  totalCurrentLiabilities: BigDecimal
+
+  # Non-current Liabilities
+  longTermDebt: BigDecimal
+  deferredRevenueNonCurrent: BigDecimal
+  deferredTaxLiabilities: BigDecimal
+  otherNonCurrentLiabilities: BigDecimal
+  totalNonCurrentLiabilities: BigDecimal
+  totalLiabilities: BigDecimal
+
+  # Equity
+  commonStock: BigDecimal
+  additionalPaidInCapital: BigDecimal
+  retainedEarnings: BigDecimal
+  treasuryStock: BigDecimal
+  accumulatedOtherComprehensiveIncome: BigDecimal
+  totalStockholdersEquity: BigDecimal
+  minorityInterest: BigDecimal
+  totalEquity: BigDecimal
+
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type IncomeStatement {
+  id: UUID!
+  financialPeriod: FinancialPeriod!
+  dataSource: DataSource!
+  sourceRef: String
+
+  # Revenue
+  revenue: BigDecimal
+  costOfRevenue: BigDecimal
+  grossProfit: BigDecimal
+
+  # Operating Expenses
+  researchAndDevelopment: BigDecimal
+  sellingGeneralAdmin: BigDecimal
+  otherOperatingExpenses: BigDecimal
+  totalOperatingExpenses: BigDecimal
+  operatingIncome: BigDecimal
+
+  # Below-the-line
+  interestExpense: BigDecimal
+  interestIncome: BigDecimal
+  otherNonOperatingIncome: BigDecimal
+  pretaxIncome: BigDecimal
+  incomeTaxExpense: BigDecimal
+  netIncome: BigDecimal
+  netIncomeAttributableToMinority: BigDecimal
+  netIncomeToCommon: BigDecimal
+
+  # Per-share
+  epsBasic: BigDecimal
+  epsDiluted: BigDecimal
+  sharesBasic: BigDecimal
+  sharesDiluted: BigDecimal
+
+  # Non-GAAP
+  ebitda: BigDecimal
+  depreciationAndAmortization: BigDecimal
+
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type CashFlowStatement {
+  id: UUID!
+  financialPeriod: FinancialPeriod!
+  dataSource: DataSource!
+  sourceRef: String
+
+  # Operating Activities
+  netIncome: BigDecimal
+  depreciationAndAmortization: BigDecimal
+  stockBasedCompensation: BigDecimal
+  changeInWorkingCapital: BigDecimal
+  otherOperatingActivities: BigDecimal
+  operatingCashFlow: BigDecimal
+
+  # Investing Activities
+  capitalExpenditures: BigDecimal
+  acquisitions: BigDecimal
+  purchasesOfInvestments: BigDecimal
+  salesOfInvestments: BigDecimal
+  otherInvestingActivities: BigDecimal
+  investingCashFlow: BigDecimal
+
+  # Financing Activities
+  dividendsPaid: BigDecimal
+  stockRepurchases: BigDecimal
+  commonStockIssuance: BigDecimal
+  debtIssuance: BigDecimal
+  debtRepayment: BigDecimal
+  otherFinancingActivities: BigDecimal
+  financingCashFlow: BigDecimal
+
+  # Summary
+  effectOfExchangeRate: BigDecimal
+  netChangeInCash: BigDecimal
+  freeCashFlow: BigDecimal
+
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime
+}

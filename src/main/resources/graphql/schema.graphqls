@@ -1,0 +1,107 @@
+# Custom Scalars
+scalar UUID
+scalar DateTime
+scalar Date
+scalar BigDecimal
+scalar JSON
+
+# Pagination Types (Relay-style)
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# Root Query
+type Query {
+  # Company queries
+  company(id: UUID!): Company
+  companyByTicker(ticker: String!): Company
+  companyByCik(cik: String!): Company
+  companies(
+    first: Int
+    after: String
+    filter: CompanyFilter
+  ): CompanyConnection!
+
+  # Financial Period queries
+  financialPeriod(id: UUID!): FinancialPeriod
+  financialPeriods(
+    companyId: UUID!
+    periodType: PeriodType
+    fiscalYear: Int
+    first: Int
+    after: String
+  ): FinancialPeriodConnection!
+
+  # Financial Statement queries
+  balanceSheet(id: UUID!): BalanceSheet
+  incomeStatement(id: UUID!): IncomeStatement
+  cashFlowStatement(id: UUID!): CashFlowStatement
+
+  # SEC Filing queries
+  secFiling(id: UUID!): SecFiling
+  secFilingByAdsh(adsh: String!): SecFiling
+  secFilings(
+    companyId: UUID
+    formType: String
+    first: Int
+    after: String
+  ): SecFilingConnection!
+
+  # Estimate queries
+  brokerEstimates(
+    companyId: UUID!
+    metric: EstimateMetric
+    fiscalYear: Int
+    first: Int
+    after: String
+  ): BrokerEstimateConnection!
+
+  consensusEstimates(
+    companyId: UUID!
+    metric: EstimateMetric
+    fiscalYear: Int
+    first: Int
+    after: String
+  ): ConsensusEstimateConnection!
+
+  # Data Item queries
+  dataItem(id: UUID!): DataItem
+  dataItems(
+    provider: String
+    sourceType: SourceType
+    query: String
+    first: Int
+    after: String
+  ): DataItemConnection!
+
+  # Content queries (Elasticsearch)
+  contentDocument(id: String!): ContentDocument
+  contentDocuments(
+    provider: String
+    contentType: String
+    query: String
+    first: Int
+    after: String
+  ): ContentDocumentConnection!
+}
+
+# Root Mutation
+type Mutation {
+  # Company mutations
+  createCompany(input: CreateCompanyInput!): Company!
+  updateCompany(id: UUID!, input: UpdateCompanyInput!): Company!
+  deleteCompany(id: UUID!): Boolean!
+
+  # DataItem mutations
+  createDataItem(input: CreateDataItemInput!): DataItem!
+  updateDataItem(id: UUID!, input: UpdateDataItemInput!): DataItem!
+  deleteDataItem(id: UUID!): Boolean!
+
+  # Content mutations
+  storeContent(input: StoreContentInput!): ContentDocument!
+  updateContent(id: String!, input: UpdateContentInput!): ContentDocument!
+  deleteContent(id: String!): Boolean!
+}
